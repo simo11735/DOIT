@@ -6,6 +6,7 @@ public class ProponenteProgetto {
     private String nome;
     private String cognome;
     private List<Progetto> progetti = new ArrayList<>();
+    private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
 
     public ProponenteProgetto(int id, String nome, String cognome) {
         this.id = id;
@@ -37,5 +38,9 @@ public class ProponenteProgetto {
 
     public List<Progetto> getProgetti() {
         return progetti;
+    }
+
+    public List<MessaggioProponenteProgetto> getMessaggiProponenteProgetto() {
+        return messaggiProponenteProgetto;
     }
 }

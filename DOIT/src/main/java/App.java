@@ -6,13 +6,13 @@ public class App {
         Progetto progetto = proponenteProgetto.propostaProgetto(2, "Progetto", "progetto", Competenza.INFORMATICA);
         progettista.creaCandidatura(progetto);
 
-        System.out .println(progetto.getCandidature());
-        System.out .println(progetto.getProgettisti());
+        System.out.println(progetto.getCandidature());
+        System.out.println(progetto.getProgettisti());
 
         proponenteProgetto.accettaCandidatura(progetto, progettista);
 
-        System.out .println(progetto.getCandidature());
-        System.out .println(progetto.getProgettisti());
+        System.out.println(progetto.getCandidature());
+        System.out.println(progetto.getProgettisti());
 
     }
 }

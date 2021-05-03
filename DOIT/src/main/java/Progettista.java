@@ -9,6 +9,7 @@ public class Progettista {
     private List<String> esperienzeLavorative;
     private String linkedinUrl;
     private List<Progetto> progetti = new ArrayList<>();
+    private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
 
     public Progettista(int id, String nome, String cognome, Competenza competenza) {
         this.id = id;
@@ -57,5 +58,9 @@ public class Progettista {
 
     public void setLinkedinUrl(String linkedinUrl) {
         this.linkedinUrl = linkedinUrl;
+    }
+
+    public List<MessaggioProgettista> getMessaggiProgettista() {
+        return messaggiProgettista;
     }
 }
