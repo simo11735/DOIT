@@ -6,8 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="DOIT" />
+        <module name="doit" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="doit" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="doit" options="-parameters" />
+    </option>
   </component>
 </project>
