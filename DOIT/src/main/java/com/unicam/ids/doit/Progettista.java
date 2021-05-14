@@ -3,6 +3,7 @@ package com.unicam.ids.doit;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Progettista {
@@ -11,7 +12,9 @@ public class Progettista {
     private int id;
     private String nome;
     private String cognome;
+    @Enumerated(EnumType.STRING)
     private Competenza competenza;
+    @ElementCollection
     private List<String> esperienzeLavorative;
     private String linkedinUrl;
     @OneToMany(cascade = CascadeType.ALL)
@@ -19,27 +22,39 @@ public class Progettista {
     @OneToMany(cascade = CascadeType.ALL)
     private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
 
-    public Progettista(int id, String nome, String cognome, Competenza competenza) {
-        this.id = id;
+    public Progettista() {
+    }
+
+    public Progettista(String nome, String cognome, Competenza competenza) {
         this.nome = nome;
         this.cognome = cognome;
         this.competenza = competenza;
     }
 
     public boolean creaCandidatura(Progetto progetto) {
-        return progetto.addCandidatura(this);
+        if (!progetto.getCandidature().stream().map(c -> c.getId()).collect(Collectors.toList()).contains(this.id))
+            if (progetto.getCompetenza().equals(this.competenza))
+                return progetto.addCandidatura(this);
+        return false;
     }
 
-    boolean addEsperienzaLavorativa(String esperienzaLavorativa) {
-        if(!this.esperienzeLavorative.contains(esperienzaLavorativa))
+    public boolean addEsperienzaLavorativa(String esperienzaLavorativa) {
+        if (!this.esperienzeLavorative.contains(esperienzaLavorativa))
             return this.esperienzeLavorative.add(esperienzaLavorativa);
         return false;
     }
 
-    void richiestaConsiglioProgetto(int id, Progetto progetto, Esperto esperto) {
-        MessaggioProgettista mp = new MessaggioProgettista(id, progetto);
-        esperto.getMessaggiProgettista().add(mp);
-        this.messaggiProgettista.add(mp);
+    public boolean richiestaConsiglioProgetto(Progetto progetto, Esperto esperto) {
+        if (progetto.getCompetenza().equals(esperto.getCompetenza())) {
+            if (!esperto.getMessaggiProgettista().stream().map(p -> p.getProgetto().getId())
+                    .collect(Collectors.toList()).contains(progetto.getId())) {
+                MessaggioProgettista mp = new MessaggioProgettista(progetto);
+                esperto.getMessaggiProgettista().add(mp);
+                this.messaggiProgettista.add(mp);
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getId() {

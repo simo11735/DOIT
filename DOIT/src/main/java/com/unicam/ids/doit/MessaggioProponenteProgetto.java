@@ -1,11 +1,21 @@
 package com.unicam.ids.doit;
 
+import javax.persistence.*;
+
+@Entity
 public class MessaggioProponenteProgetto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String testo;
     private boolean giudizio;
+    @JoinColumn(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Progettista progettista;
     private boolean giudicato;
+
+    public MessaggioProponenteProgetto() {
+    }
 
     public MessaggioProponenteProgetto(Progettista progettista) {
         this.testo = "";

@@ -14,8 +14,10 @@ public class MessaggioProgettista {
     private Progetto progetto;
     private boolean giudicato;
 
-    public MessaggioProgettista(int id, Progetto progetto) {
-        this.id = id;
+    public MessaggioProgettista() {
+    }
+
+    public MessaggioProgettista(Progetto progetto) {
         this.testo = "";
         this.giudizio = false;
         this.progetto = progetto;

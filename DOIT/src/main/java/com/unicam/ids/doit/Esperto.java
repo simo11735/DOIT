@@ -12,25 +12,36 @@ public class Esperto {
     private int id;
     private String nome;
     private String cognome;
+    @Enumerated(EnumType.STRING)
     private Competenza competenza;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id")
     private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id")
     private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
 
-    public Esperto(int id, String nome, String cognome, Competenza competenza) {
-        this.id = id;
+    public Esperto() {
+    }
+
+    public Esperto(String nome, String cognome, Competenza competenza) {
         this.nome = nome;
         this.cognome = cognome;
         this.competenza = competenza;
     }
 
-    public void giudicaProgettista(MessaggioProgettista messaggioProgettista, String testo, boolean giudizio) {
-        messaggioProgettista.giudica(testo, giudizio);
+    public boolean giudicaProgettista(MessaggioProgettista messaggioProgettista, String testo, boolean giudizio) {
+        if (!messaggioProgettista.isGiudicato()) {
+            messaggioProgettista.giudica(testo, giudizio);
+            return true;
+        }
+        return false;
     }
 
-    public void giudicaProponenteProgetto(MessaggioProponenteProgetto messaggioProgettista, String testo, boolean giudizio) {
-        messaggioProgettista.giudica(testo, giudizio);
+    public boolean giudicaProponenteProgetto(MessaggioProponenteProgetto messaggioPP, String testo, boolean giudizio) {
+        if (!messaggioPP.isGiudicato()) {
+            messaggioPP.giudica(testo, giudizio);
+            return true;
+        }
+        return false;
     }
 
     public int getId() {

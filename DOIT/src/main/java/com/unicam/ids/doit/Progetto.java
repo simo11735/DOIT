@@ -11,15 +11,19 @@ public class Progetto {
     private int id;
     private String nome;
     private String descrizione;
+    @Enumerated(EnumType.STRING)
     private Competenza competenza;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private ProponenteProgetto proponenteProgetto;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Progettista> candidature = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Progettista> progettisti = new ArrayList<>();
+
+    public Progetto() {
+    }
 
     public Progetto(String nome, String descrizione, Competenza competenza, ProponenteProgetto proponenteProgetto) {
         this.nome = nome;

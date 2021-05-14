@@ -3,6 +3,7 @@ package com.unicam.ids.doit;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class ProponenteProgetto {
@@ -16,8 +17,10 @@ public class ProponenteProgetto {
     @OneToMany(cascade = CascadeType.ALL)
     private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
 
-    public ProponenteProgetto(int id, String nome, String cognome) {
-        this.id = id;
+    public ProponenteProgetto() {
+    }
+
+    public ProponenteProgetto(String nome, String cognome) {
         this.nome = nome;
         this.cognome = cognome;
     }
@@ -29,13 +32,23 @@ public class ProponenteProgetto {
     }
 
     public boolean accettaCandidatura(Progetto progetto, Progettista progettista) {
-        return progetto.addProgettista(progettista);
+        if (progetto.getCandidature().stream().map(c -> c.getId()).collect(Collectors.toList()).contains(progettista.getId()))
+            if (!progetto.getProgettisti().stream().map(c -> c.getId()).collect(Collectors.toList()).contains(progettista.getId()))
+                return progetto.addProgettista(progettista);
+        return false;
     }
 
-    void richiestaConsiglioProgettista(Progettista progettista, Esperto esperto) {
-        MessaggioProponenteProgetto mp = new MessaggioProponenteProgetto(progettista);
-        esperto.getMessaggiProponenteProgetto().add(mp);
-        this.messaggiProponenteProgetto.add(mp);
+    boolean richiestaConsiglioProgettista(Progettista progettista, Esperto esperto) {
+        if (progettista.getCompetenza().equals(esperto.getCompetenza())) {
+            if (!esperto.getMessaggiProponenteProgetto().stream().map(p -> p.getProgettista().getId())
+                    .collect(Collectors.toList()).contains(progettista.getId())) {
+                MessaggioProponenteProgetto mp = new MessaggioProponenteProgetto(progettista);
+                esperto.getMessaggiProponenteProgetto().add(mp);
+                this.messaggiProponenteProgetto.add(mp);
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getId() {
