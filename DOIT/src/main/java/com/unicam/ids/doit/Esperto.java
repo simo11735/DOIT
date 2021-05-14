@@ -28,17 +28,17 @@ public class Esperto {
         this.competenza = competenza;
     }
 
-    public boolean giudicaProgettista(MessaggioProgettista messaggioProgettista, String testo, boolean giudizio) {
-        if (!messaggioProgettista.isGiudicato()) {
-            messaggioProgettista.giudica(testo, giudizio);
+    public boolean giudicaProgettista(MessaggioProponenteProgetto messaggioPP, String testo, boolean giudizio) {
+        if (!messaggioPP.isGiudicato()) {
+            messaggioPP.giudica(testo, giudizio);
             return true;
         }
         return false;
     }
 
-    public boolean giudicaProponenteProgetto(MessaggioProponenteProgetto messaggioPP, String testo, boolean giudizio) {
-        if (!messaggioPP.isGiudicato()) {
-            messaggioPP.giudica(testo, giudizio);
+    public boolean giudicaProgetto(MessaggioProgettista messaggioProgettista, String testo, boolean giudizio) {
+        if (!messaggioProgettista.isGiudicato()) {
+            messaggioProgettista.giudica(testo, giudizio);
             return true;
         }
         return false;
