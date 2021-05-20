@@ -28,9 +28,9 @@ public class ProponenteProgettoController {
     }
 
     @PostMapping("/propostaProgetto")
-    ResponseEntity propostaProgetto(@CookieValue int idPP, @RequestParam String nome, @RequestParam String descrizione, @RequestParam String competenza) {
+    ResponseEntity propostaProgetto(@CookieValue int id, @RequestParam String nome, @RequestParam String descrizione, @RequestParam String competenza) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progetto p = pp.propostaProgetto(nome, descrizione, findCompetenza(competenza));
             progettoRepository.save(p);
             proponenteProgettoRepository.save(pp);
@@ -41,9 +41,9 @@ public class ProponenteProgettoController {
     }
 
     @GetMapping("/progetti")
-    List<Progetto> getProgetti(@CookieValue int idPP) {
+    List<Progetto> getProgetti(@CookieValue int id) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             return pp.getProgetti();
         } catch (Exception e) {
             return null;
@@ -51,9 +51,9 @@ public class ProponenteProgettoController {
     }
 
     @GetMapping("/candidature")
-    List<Progettista> getCandidature(@CookieValue int idPP, @RequestParam int idProgetto) {
+    List<Progettista> getCandidature(@CookieValue int id, @RequestParam int idProgetto) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progetto p = progettoRepository.findById(idProgetto).get();
             if (!pp.getProgetti().contains(p))
                 throw new Exception();
@@ -64,9 +64,9 @@ public class ProponenteProgettoController {
     }
 
     @PostMapping("/accettaCandidatura")
-    ResponseEntity accettaCandidatura(@CookieValue int idPP, @RequestParam int idProgetto, @RequestParam int idProgettista) {
+    ResponseEntity accettaCandidatura(@CookieValue int id, @RequestParam int idProgetto, @RequestParam int idProgettista) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progetto progetto = progettoRepository.findById(idProgetto).get();
             Progettista progettista = progettistaRepository.findById(idProgettista).get();
             if (!pp.accettaCandidatura(progetto, progettista))
@@ -79,9 +79,9 @@ public class ProponenteProgettoController {
     }
 
     @GetMapping("/progettisti")
-    List<Progettista> getProgettisti(@CookieValue int idPP, @RequestParam int idProgetto) {
+    List<Progettista> getProgettisti(@CookieValue int id, @RequestParam int idProgetto) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progetto progetto = progettoRepository.findById(idProgetto).get();
             List<Progettista> progettisti = new ArrayList<>();
             progettistaRepository.findAll().forEach(p -> {
@@ -96,9 +96,9 @@ public class ProponenteProgettoController {
     }
 
     @GetMapping("/esperti")
-    List<Esperto> getEsperti(@CookieValue int idPP, @RequestParam int idProgetto) {
+    List<Esperto> getEsperti(@CookieValue int id, @RequestParam int idProgetto) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progetto progetto = progettoRepository.findById(idProgetto).get();
             List<Esperto> esperti = new ArrayList<>();
             espertoRepository.findAll().forEach(e -> {
@@ -113,9 +113,9 @@ public class ProponenteProgettoController {
     }
 
     @PostMapping("/richiestaConsiglioProgettista")
-    ResponseEntity richiestaConsiglioProgettista(@CookieValue int idPP, @RequestParam int idProgettista, @RequestParam int idEsperto) {
+    ResponseEntity richiestaConsiglioProgettista(@CookieValue int id, @RequestParam int idProgettista, @RequestParam int idEsperto) {
         try {
-            ProponenteProgetto pp = proponenteProgettoRepository.findById(idPP).get();
+            ProponenteProgetto pp = proponenteProgettoRepository.findById(id).get();
             Progettista progettista = progettistaRepository.findById(idProgettista).get();
             Esperto esperto = espertoRepository.findById(idEsperto).get();
             if (!pp.richiestaConsiglioProgettista(progettista, esperto))

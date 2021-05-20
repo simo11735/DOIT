@@ -12,19 +12,24 @@ public class Esperto {
     private int id;
     private String nome;
     private String cognome;
+    private String username;
+    private String password;
     @Enumerated(EnumType.STRING)
     private Competenza competenza;
     @OneToMany(mappedBy = "id")
     private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
     @OneToMany(mappedBy = "id")
     private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
+    private String tipo = "esperto";
 
     public Esperto() {
     }
 
-    public Esperto(String nome, String cognome, Competenza competenza) {
+    public Esperto(String nome, String cognome, String username, String password, Competenza competenza) {
         this.nome = nome;
         this.cognome = cognome;
+        this.username = username;
+        this.password = password;
         this.competenza = competenza;
     }
 
@@ -66,5 +71,17 @@ public class Esperto {
 
     public List<MessaggioProponenteProgetto> getMessaggiProponenteProgetto() {
         return messaggiProponenteProgetto;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean controllaPassword(String password) {
+        return this.password.equals(password);
     }
 }

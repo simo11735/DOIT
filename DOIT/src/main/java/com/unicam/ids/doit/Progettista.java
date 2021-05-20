@@ -12,6 +12,8 @@ public class Progettista {
     private int id;
     private String nome;
     private String cognome;
+    private String username;
+    private String password;
     @Enumerated(EnumType.STRING)
     private Competenza competenza;
     @ElementCollection
@@ -21,13 +23,16 @@ public class Progettista {
     private List<Progetto> progetti = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
+    private String tipo = "progettista";
 
     public Progettista() {
     }
 
-    public Progettista(String nome, String cognome, Competenza competenza) {
+    public Progettista(String nome, String cognome, String username, String password, Competenza competenza) {
         this.nome = nome;
         this.cognome = cognome;
+        this.username = username;
+        this.password = password;
         this.competenza = competenza;
     }
 
@@ -91,5 +96,17 @@ public class Progettista {
 
     public List<MessaggioProgettista> getMessaggiProgettista() {
         return messaggiProgettista;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean controllaPassword(String password) {
+        return this.password.equals(password);
     }
 }

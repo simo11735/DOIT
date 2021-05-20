@@ -19,9 +19,9 @@ public class ProgettistaController {
     EspertoRepository espertoRepository;
 
     @GetMapping("/progetti")
-    List<Progetto> getProgetti(@CookieValue int idProgettista) {
+    List<Progetto> getProgetti(@CookieValue int id) {
         try {
-            Progettista progettista = progettistaRepository.findById(idProgettista).get();
+            Progettista progettista = progettistaRepository.findById(id).get();
             List<Progetto> progetti = new ArrayList<>();
             for (Progetto p : progettoRepository.findAll())
                 if (p.getCompetenza().equals(progettista.getCompetenza()))
@@ -33,9 +33,9 @@ public class ProgettistaController {
     }
 
     @PostMapping("/creaCandidatura")
-    ResponseEntity creaCandidatura(@CookieValue int idProgettista, @RequestParam int idProgetto) {
+    ResponseEntity creaCandidatura(@CookieValue int id, @RequestParam int idProgetto) {
         try {
-            Progettista progettista = progettistaRepository.findById(idProgettista).get();
+            Progettista progettista = progettistaRepository.findById(id).get();
             Progetto progetto = progettoRepository.findById(idProgetto).get();
             if (!progettista.creaCandidatura(progetto))
                 throw new Exception();
@@ -48,9 +48,9 @@ public class ProgettistaController {
     }
 
     @PostMapping("/addEsperienzaLavorativa")
-    ResponseEntity addEsperienzaLavorativa(@CookieValue int idProgettista, @RequestParam String esperienzaLavorativa) {
+    ResponseEntity addEsperienzaLavorativa(@CookieValue int id, @RequestParam String esperienzaLavorativa) {
         try {
-            Progettista progettista = progettistaRepository.findById(idProgettista).get();
+            Progettista progettista = progettistaRepository.findById(id).get();
             if (!progettista.addEsperienzaLavorativa(esperienzaLavorativa))
                 throw new Exception();
             progettistaRepository.save(progettista);
@@ -61,9 +61,9 @@ public class ProgettistaController {
     }
 
     @GetMapping("/esperti")
-    List<Esperto> getEsperti(@CookieValue int idProgettista) {
+    List<Esperto> getEsperti(@CookieValue int id) {
         try {
-            Progettista progettista = progettistaRepository.findById(idProgettista).get();
+            Progettista progettista = progettistaRepository.findById(id).get();
             List<Esperto> esperti = new ArrayList<>();
             espertoRepository.findAll().forEach(e -> {
                 if (progettista.getCompetenza().equals(e.getCompetenza()))

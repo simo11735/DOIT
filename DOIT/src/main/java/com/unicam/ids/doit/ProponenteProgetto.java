@@ -12,17 +12,22 @@ public class ProponenteProgetto {
     private int id;
     private String nome;
     private String cognome;
+    private String username;
+    private String password;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Progetto> progetti = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
+    private String tipo = "proponente-progetto";
 
     public ProponenteProgetto() {
     }
 
-    public ProponenteProgetto(String nome, String cognome) {
+    public ProponenteProgetto(String nome, String cognome, String username, String password) {
         this.nome = nome;
         this.cognome = cognome;
+        this.username = username;
+        this.password = password;
     }
 
     public Progetto propostaProgetto(String nome, String descrizione, Competenza competenza) {
@@ -69,5 +74,17 @@ public class ProponenteProgetto {
 
     public List<MessaggioProponenteProgetto> getMessaggiProponenteProgetto() {
         return messaggiProponenteProgetto;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean controllaPassword(String password) {
+        return this.password.equals(password);
     }
 }

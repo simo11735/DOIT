@@ -28,9 +28,9 @@ public class EspertoController {
     }
 
     @PostMapping("/giudicaProgettista")
-    public ResponseEntity giudicaProgettista(@CookieValue int idEsperto, @RequestParam int idMessaggioPP, @RequestParam String testo, @RequestParam boolean giudizio) {
+    public ResponseEntity giudicaProgettista(@CookieValue int id, @RequestParam int idMessaggioPP, @RequestParam String testo, @RequestParam boolean giudizio) {
         try {
-            Esperto esperto = espertoRepository.findById(idEsperto).get();
+            Esperto esperto = espertoRepository.findById(id).get();
             MessaggioProponenteProgetto messaggioProponenteProgetto = messaggioProponenteProgettoRepository.findById(idMessaggioPP).get();
             if(!esperto.giudicaProgettista(messaggioProponenteProgetto, testo, giudizio))
                 throw new Exception();
@@ -42,9 +42,9 @@ public class EspertoController {
     }
 
     @GetMapping("/messaggiProgettista")
-    public List<MessaggioProgettista> getMessaggiProgettista(@CookieValue int idEsperto) {
+    public List<MessaggioProgettista> getMessaggiProgettista(@CookieValue int id) {
         try {
-            Esperto esperto = espertoRepository.findById(idEsperto).get();
+            Esperto esperto = espertoRepository.findById(id).get();
             return esperto.getMessaggiProgettista();
         } catch (Exception e) {
             return null;
@@ -52,9 +52,9 @@ public class EspertoController {
     }
 
     @PostMapping("/giudicaProgetto")
-    public ResponseEntity giudicaProgetto(@CookieValue int idEsperto, @RequestParam int idMessaggioProgettista, @RequestParam String testo, @RequestParam boolean giudizio) {
+    public ResponseEntity giudicaProgetto(@CookieValue int id, @RequestParam int idMessaggioProgettista, @RequestParam String testo, @RequestParam boolean giudizio) {
         try {
-            Esperto esperto = espertoRepository.findById(idEsperto).get();
+            Esperto esperto = espertoRepository.findById(id).get();
             MessaggioProgettista messaggioProgettista = messaggioProgettistaRepository.findById(idMessaggioProgettista).get();
             if(!esperto.giudicaProgetto(messaggioProgettista, testo, giudizio))
                 throw  new Exception();
