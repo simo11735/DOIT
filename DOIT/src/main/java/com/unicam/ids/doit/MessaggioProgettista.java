@@ -12,7 +12,7 @@ public class MessaggioProgettista {
     private String testo;
     private boolean giudizio;
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"proponenteProgetto", "progettisti"})
+    @JsonIgnoreProperties({"proponenteProgetto", "progettisti", "candidature"})
     private Progetto progetto;
     private boolean giudicato;
 

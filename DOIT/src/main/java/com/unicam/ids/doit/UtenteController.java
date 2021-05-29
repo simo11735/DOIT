@@ -141,7 +141,7 @@ public class UtenteController {
         }
     }
 
-    @GetMapping("/proponenteProgetti")
+    @GetMapping("/proponente-progetti")
     List<ProponenteProgetto> getProponenteProgetti(@RequestParam String nome) {
         try {
             List<ProponenteProgetto> proponenteProgetti = new ArrayList<>();
@@ -154,7 +154,7 @@ public class UtenteController {
         }
     }
 
-    @GetMapping("/proponenteProgetto")
+    @GetMapping("/proponente-progetto")
     ProponenteProgetto getProponenteProgetto(@RequestParam int id) {
         try {
             return proponenteProgettoRepository.findById(id).get();

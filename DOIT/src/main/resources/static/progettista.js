@@ -16,8 +16,8 @@ export default Vue.component("progettista", {
             <ion-item detail button @click="$router.push({path: '/aggiungi-esperienza'})">
                 <ion-label>aggiungi esperienza</ion-label>
             </ion-item>
-            <ion-item detail button @click="$router.push({path: '/richiedi-consiglio-progetto'})">
-                <ion-label>richiedi consiglio progetto</ion-label>
+            <ion-item detail button @click="$router.push({path: '/messaggi'})">
+                <ion-label>messaggi</ion-label>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/progettista")
@@ -25,7 +26,9 @@ public class ProgettistaController {
             List<Progetto> progetti = new ArrayList<>();
             for (Progetto p : progettoRepository.findAll())
                 if (p.getCompetenza().equals(progettista.getCompetenza()))
-                    progetti.add(p);
+                    if (!p.getCandidature().stream().map(pr -> pr.getId()).collect(Collectors.toList()).contains(progettista.getId()))
+                        if (!p.getProgettisti().stream().map(pr -> pr.getId()).collect(Collectors.toList()).contains(progettista.getId()))
+                            progetti.add(p);
             return progetti;
         } catch (Exception e) {
             return null;
@@ -86,15 +89,14 @@ public class ProgettistaController {
     }
 
     @PostMapping("/richiestaConsiglioProgetto")
-    ResponseEntity richiestaConsiglioProgetto(@CookieValue int idProgettista, @RequestParam int idProgetto, @RequestParam int idEsperto) {
+    ResponseEntity richiestaConsiglioProgetto(@CookieValue int id, @RequestParam int idProgetto, @RequestParam int idEsperto) {
         try {
-            Progettista progettista = progettistaRepository.findById(idProgettista).get();
+            Progettista progettista = progettistaRepository.findById(id).get();
             Progetto progetto = progettoRepository.findById(idProgetto).get();
             Esperto esperto = espertoRepository.findById(idEsperto).get();
             if (!progettista.richiestaConsiglioProgetto(progetto, esperto))
                 throw new Exception();
-            espertoRepository.save(esperto);
-            progettistaRepository.save(progettista);
+            progettoRepository.save(progetto);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);

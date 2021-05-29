@@ -40,8 +40,26 @@ export default Vue.component("progetto", {
                 </ion-button>
             </ion-item>
         </ion-list>
-        <ion-button v-if="utente.tipo === 'progettista' && !progetto.candidature.map(c => c.id).includes(utente.id) && !progetto.progettisti.map(p => p.id).includes(utente.id)" 
-        expand='full' color="dark" @click="candidati">candidati</ion-button>
+        <ion-list v-if="utente.tipo === 'progettista'">
+          <ion-item>
+              <ion-title>funzionalità progettista</ion-title>
+          </ion-item>
+          <ion-item v-if="!progetto.candidature.map(c => c.id).includes(utente.id) && !progetto.progettisti.map(p => p.id).includes(utente.id)" 
+            button @click="candidati">
+            candidati
+          </ion-item>
+          <ion-item button detail @click="$router.push({path: '/esperti-richiesta/'+progetto.id})">
+            richiedi consiglio
+          </ion-item>
+        </ion-list>
+        <ion-list v-if="utente.tipo === 'proponente-progetto'">
+          <ion-item>
+              <ion-title>funzionalità proponente progetto</ion-title>
+          </ion-item>
+          <ion-item detail button @click="$router.push({path: '/progettisti-richiesta/'+progetto.id})">
+              <ion-label>richiedi consiglio per progettista</ion-label>
+          </ion-item>
+        </ion-list>
     </ion-content>
     `,
   data() {
@@ -68,7 +86,7 @@ export default Vue.component("progetto", {
           { method: "POST" }
         )
       ).status;
-      this.$emit('aggiorna');
+      await this.$emit('aggiorna');
       if (status >= 200 && status < 300) this.$emit("notifica", "successo");
       else this.$emit("notifica", "errore nell'accettazione");
       this.$emit("caricamento", false);
@@ -81,7 +99,7 @@ export default Vue.component("progetto", {
           { method: "POST" }
         )
       ).status;
-      this.$emit('aggiorna');
+      await this.$emit('aggiorna');
       if (status >= 200 && status < 300) this.$emit("notifica", "successo");
       else this.$emit("notifica", "errore nella candidatura");
       this.$emit("caricamento", false);

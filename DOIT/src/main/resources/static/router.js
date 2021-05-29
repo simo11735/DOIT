@@ -15,18 +15,6 @@ const routes = [
     component: () => import("./proposta-progetto.js"),
   },
   {
-    path: "/richiedi-consiglio-progettista",
-    component: () => import("./richiedi-consiglio-progettista.js"),
-  },
-  {
-    path: "/consiglia-progettista",
-    component: () => import("./consiglia-progettista.js"),
-  },
-  {
-    path: "/consiglia-progetto",
-    component: () => import("./consiglia-progetto.js"),
-  },
-  {
     path: "/progetti/:tipo",
     component: () => import("./progetti.js"),
   },
@@ -41,6 +29,30 @@ const routes = [
   {
     path: "/progetto/:id",
     component: () => import("./progetto.js"),
+  },
+  {
+    path: "/progettisti-richiesta/:idProgetto",
+    component: () => import("./progettisti-richiesta.js"),
+  },
+  {
+    path: '/esperti-richiesta/:idProgetto/:idProgettista?',
+    component: () => import("./esperti-richiesta.js"),
+  },
+  {
+    path: '/consiglia-progetto',
+    component: () => import("./consiglia-progetto.js"),
+  },
+  {
+    path: '/consiglia-progettista',
+    component: () => import("./consiglia-progettista.js"),
+  },
+  {
+    path: '/messaggio/:id/:tipo',
+    component: () => import("./messaggio.js"),
+  },
+  {
+    path: '/messaggi',
+    component: () => import("./messaggi.js"),
   },
   {
     path: "/",

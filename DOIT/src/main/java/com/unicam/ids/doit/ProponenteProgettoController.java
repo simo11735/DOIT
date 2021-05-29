@@ -120,7 +120,7 @@ public class ProponenteProgettoController {
             Esperto esperto = espertoRepository.findById(idEsperto).get();
             if (!pp.richiestaConsiglioProgettista(progettista, esperto))
                 throw new Exception();
-            proponenteProgettoRepository.save(pp);
+            progettistaRepository.save(progettista);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);

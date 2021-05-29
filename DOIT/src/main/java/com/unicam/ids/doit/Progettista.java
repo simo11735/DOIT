@@ -22,7 +22,7 @@ public class Progettista {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Progetto> progetti = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
-    private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
+    private List<MessaggioProgettista> messaggi = new ArrayList<>();
     private String tipo = "progettista";
 
     public Progettista() {
@@ -55,7 +55,7 @@ public class Progettista {
                     .collect(Collectors.toList()).contains(progetto.getId())) {
                 MessaggioProgettista mp = new MessaggioProgettista(progetto);
                 esperto.getMessaggiProgettista().add(mp);
-                this.messaggiProgettista.add(mp);
+                this.messaggi.add(mp);
                 return true;
             }
         }
@@ -94,8 +94,8 @@ public class Progettista {
         this.linkedinUrl = linkedinUrl;
     }
 
-    public List<MessaggioProgettista> getMessaggiProgettista() {
-        return messaggiProgettista;
+    public List<MessaggioProgettista> getMessaggi() {
+        return messaggi;
     }
 
     public String getTipo() {

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/esperto")
@@ -18,20 +19,20 @@ public class EspertoController {
     MessaggioProponenteProgettoRepository messaggioProponenteProgettoRepository;
 
     @GetMapping("/messaggiProponenteProgetto")
-    public List<MessaggioProponenteProgetto> getMessaggiProponenteProgetto(@CookieValue int idEsperto) {
+    public List<MessaggioProponenteProgetto> getMessaggiProponenteProgetto(@CookieValue int id) {
         try {
-            Esperto esperto = espertoRepository.findById(idEsperto).get();
-            return esperto.getMessaggiProponenteProgetto();
+            Esperto esperto = espertoRepository.findById(id).get();
+            return esperto.getMessaggiProponenteProgetto().stream().filter(m -> !m.isGiudicato()).collect(Collectors.toList());
         } catch (Exception e) {
             return null;
         }
     }
 
     @PostMapping("/giudicaProgettista")
-    public ResponseEntity giudicaProgettista(@CookieValue int id, @RequestParam int idMessaggioPP, @RequestParam String testo, @RequestParam boolean giudizio) {
+    public ResponseEntity giudicaProgettista(@CookieValue int id, @RequestParam int idMessaggio, @RequestParam String testo, @RequestParam boolean giudizio) {
         try {
             Esperto esperto = espertoRepository.findById(id).get();
-            MessaggioProponenteProgetto messaggioProponenteProgetto = messaggioProponenteProgettoRepository.findById(idMessaggioPP).get();
+            MessaggioProponenteProgetto messaggioProponenteProgetto = messaggioProponenteProgettoRepository.findById(idMessaggio).get();
             if(!esperto.giudicaProgettista(messaggioProponenteProgetto, testo, giudizio))
                 throw new Exception();
             espertoRepository.save(esperto);
@@ -45,17 +46,17 @@ public class EspertoController {
     public List<MessaggioProgettista> getMessaggiProgettista(@CookieValue int id) {
         try {
             Esperto esperto = espertoRepository.findById(id).get();
-            return esperto.getMessaggiProgettista();
+            return esperto.getMessaggiProgettista().stream().filter(m -> !m.isGiudicato()).collect(Collectors.toList());
         } catch (Exception e) {
             return null;
         }
     }
 
     @PostMapping("/giudicaProgetto")
-    public ResponseEntity giudicaProgetto(@CookieValue int id, @RequestParam int idMessaggioProgettista, @RequestParam String testo, @RequestParam boolean giudizio) {
+    public ResponseEntity giudicaProgetto(@CookieValue int id, @RequestParam int idMessaggio, @RequestParam String testo, @RequestParam boolean giudizio) {
         try {
             Esperto esperto = espertoRepository.findById(id).get();
-            MessaggioProgettista messaggioProgettista = messaggioProgettistaRepository.findById(idMessaggioProgettista).get();
+            MessaggioProgettista messaggioProgettista = messaggioProgettistaRepository.findById(idMessaggio).get();
             if(!esperto.giudicaProgetto(messaggioProgettista, testo, giudizio))
                 throw  new Exception();
             espertoRepository.save(esperto);

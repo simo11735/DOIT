@@ -14,7 +14,7 @@ export default Vue.component("proposta-progetto", {
         </ion-item>
         <ion-item>
             <ion-label>descrizione</ion-label>
-            <ion-input @ionChange="descrizione = $event.target.value" placeholder="descrizione"></ion-input>
+            <ion-textarea @ionChange="descrizione = $event.target.value" placeholder="descrizione"></ion-textarea>
         </ion-item>
         <ion-item>
             <ion-label>competenza</ion-label>
