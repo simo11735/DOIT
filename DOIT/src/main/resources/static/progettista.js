@@ -7,7 +7,7 @@ export default Vue.component("progettista", {
   template: /*html*/ `
     <ion-content>
         <ion-list>
-            <ion-item detail button @click="$router.push({path: '/progetti-p'})">
+            <ion-item detail button @click="$router.push({path: '/progetti/progettista'})">
                 <ion-label>lista progetti</ion-label>
             </ion-item>
             <ion-item detail button @click="$router.push({path: '/invia-candidatura'})">

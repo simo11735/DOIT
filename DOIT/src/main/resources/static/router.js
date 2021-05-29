@@ -15,10 +15,6 @@ const routes = [
     component: () => import("./proposta-progetto.js"),
   },
   {
-    path: "/accetta-progettista",
-    component: () => import("./accetta-progettista.js"),
-  },
-  {
     path: "/richiedi-consiglio-progettista",
     component: () => import("./richiedi-consiglio-progettista.js"),
   },
@@ -31,8 +27,24 @@ const routes = [
     component: () => import("./consiglia-progetto.js"),
   },
   {
-    path: "/progetti-pp",
-    component: () => import("./progetti-pp.js"),
+    path: "/progetti/:tipo",
+    component: () => import("./progetti.js"),
+  },
+  {
+    path: "/invia-candidatura",
+    component: () => import("./invia-candidatura.js"),
+  },
+  {
+    path: "/accetta-candidatura",
+    component: () => import("./accetta-candidatura.js"),
+  },
+  {
+    path: "/progetto/:id",
+    component: () => import("./progetto.js"),
+  },
+  {
+    path: "/",
+    redirect: "/autenticazione",
   },
 ];
 
@@ -45,6 +57,9 @@ new Vue({
     };
   },
   methods: {
+    async aggiorna() {
+      this.utente = await (await fetch('/'+this.utente.tipo+'?id='+this.utente.id)).json();
+    },
     autentica(utente) {
       this.utente = utente;
       document.cookie = "id=" + utente.id;

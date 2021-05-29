@@ -1,5 +1,7 @@
 package com.unicam.ids.doit;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,13 @@ public class Progetto {
     private Competenza competenza;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JsonIgnoreProperties("progetti")
     private ProponenteProgetto proponenteProgetto;
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("progetti")
     private List<Progettista> candidature = new ArrayList<>();
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("progetti")
     private List<Progettista> progettisti = new ArrayList<>();
 
     public Progetto() {

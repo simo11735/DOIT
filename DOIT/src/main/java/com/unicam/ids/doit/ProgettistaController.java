@@ -18,8 +18,8 @@ public class ProgettistaController {
     @Autowired
     EspertoRepository espertoRepository;
 
-    @GetMapping("/progetti")
-    List<Progetto> getProgetti(@CookieValue int id) {
+    @GetMapping("/progettiCandidatura")
+    List<Progetto> getProgettiCandidatura(@CookieValue int id) {
         try {
             Progettista progettista = progettistaRepository.findById(id).get();
             List<Progetto> progetti = new ArrayList<>();
@@ -27,6 +27,16 @@ public class ProgettistaController {
                 if (p.getCompetenza().equals(progettista.getCompetenza()))
                     progetti.add(p);
             return progetti;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @GetMapping("/progetti")
+    List<Progetto> getProgetti(@CookieValue int id) {
+        try {
+            Progettista progettista = progettistaRepository.findById(id).get();
+            return progettista.getProgetti();
         } catch (Exception e) {
             return null;
         }

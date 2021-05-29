@@ -1,5 +1,7 @@
 package com.unicam.ids.doit;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class MessaggioProgettista {
     private String testo;
     private boolean giudizio;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JsonIgnoreProperties({"proponenteProgetto", "progettisti"})
     private Progetto progetto;
     private boolean giudicato;
 

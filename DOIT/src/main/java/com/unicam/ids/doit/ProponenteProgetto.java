@@ -39,7 +39,7 @@ public class ProponenteProgetto {
     public boolean accettaCandidatura(Progetto progetto, Progettista progettista) {
         if (progetto.getCandidature().stream().map(c -> c.getId()).collect(Collectors.toList()).contains(progettista.getId()))
             if (!progetto.getProgettisti().stream().map(c -> c.getId()).collect(Collectors.toList()).contains(progettista.getId()))
-                return progetto.addProgettista(progettista);
+                return progetto.addProgettista(progettista) && progettista.getProgetti().add(progetto);
         return false;
     }
 

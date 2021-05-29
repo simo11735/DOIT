@@ -1,5 +1,7 @@
 package com.unicam.ids.doit;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +18,11 @@ public class Esperto {
     private String password;
     @Enumerated(EnumType.STRING)
     private Competenza competenza;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("progetti")
     private List<MessaggioProgettista> messaggiProgettista = new ArrayList<>();
-    @OneToMany(mappedBy = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("progetti")
     private List<MessaggioProponenteProgetto> messaggiProponenteProgetto = new ArrayList<>();
     private String tipo = "esperto";
 
