@@ -55,6 +55,14 @@ const routes = [
     component: () => import("./messaggi.js"),
   },
   {
+    path: '/aggiungi-esperienza',
+    component: () => import("./aggiungi-esperienza.js"),
+  },
+  {
+    path: '/cerca',
+    component: () => import("./cerca.js"),
+  },
+  {
     path: "/",
     redirect: "/autenticazione",
   },

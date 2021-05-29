@@ -73,6 +73,18 @@ public class ProgettistaController {
         }
     }
 
+    @PostMapping("/setLinkedin")
+    ResponseEntity setLinkedin(@CookieValue int id, @RequestParam String linkedin) {
+        try {
+            Progettista progettista = progettistaRepository.findById(id).get();
+            progettista.setLinkedinUrl(linkedin);
+            progettistaRepository.save(progettista);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
     @GetMapping("/esperti")
     List<Esperto> getEsperti(@CookieValue int id) {
         try {
