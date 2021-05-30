@@ -63,6 +63,18 @@ const routes = [
     component: () => import("./cerca.js"),
   },
   {
+    path: '/proponente-progetto-profilo/:id',
+    component: () => import("./proponente-progetto-profilo.js"),
+  },
+  {
+    path: '/progettista-profilo/:id',
+    component: () => import("./progettista-profilo.js"),
+  },
+  {
+    path: '/esperto-profilo/:id',
+    component: () => import("./esperto-profilo.js"),
+  },
+  {
     path: "/",
     redirect: "/autenticazione",
   },

@@ -71,9 +71,11 @@ public class ProponenteProgettoController {
             Progettista progettista = progettistaRepository.findById(idProgettista).get();
             if (!pp.accettaCandidatura(progetto, progettista))
                 throw new Exception();
+            progettoRepository.save(progetto);
             proponenteProgettoRepository.save(pp);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (Exception e) {
+            e.printStackTrace(); //TODO
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
     }

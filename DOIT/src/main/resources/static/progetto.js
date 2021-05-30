@@ -27,20 +27,21 @@ export default Vue.component("progetto", {
         </ion-list>
         <ion-list v-if="progetto.progettisti.length > 0">
             <ion-title>progettisti</ion-title>
-            <ion-item v-for="(progettista, index) in progetto.progettisti">
+            <ion-item v-for="(progettista, index) in progetto.progettisti" detail button @click="$router.push({path: '/progettista-profilo/'+progettista.id})">
                 <ion-label>{{progettista.nome}} {{progettista.cognome}}</ion-label>
             </ion-item>
         </ion-list>
-        <ion-list v-if="progetto.candidature.length > 0">
+        <ion-list v-if="utente && progetto.candidature.length > 0 && utente.tipo === 'proponente-progetto'">
             <ion-title>candidature</ion-title>
             <ion-item v-for="(progettista, index) in progetto.candidature">
                 <ion-label>{{progettista.nome}} {{progettista.cognome}}</ion-label>
-                <ion-button v-if="utente.tipo === 'proponente-progetto'" color="dark" @click="accettaCandidatura(index)">
+                <ion-button color="dark" @click="$router.push({path: '/progettista-profilo/'+progettista.id})">profilo</ion-button>
+                <ion-button color="dark" @click="accettaCandidatura(index)">
                     accetta
                 </ion-button>
             </ion-item>
         </ion-list>
-        <ion-list v-if="utente.tipo === 'progettista'">
+        <ion-list v-if="utente && utente.tipo === 'progettista'">
           <ion-item>
               <ion-title>funzionalità progettista</ion-title>
           </ion-item>
@@ -52,7 +53,7 @@ export default Vue.component("progetto", {
             richiedi consiglio
           </ion-item>
         </ion-list>
-        <ion-list v-if="utente.tipo === 'proponente-progetto'">
+        <ion-list v-if="utente && utente.tipo === 'proponente-progetto'">
           <ion-item>
               <ion-title>funzionalità proponente progetto</ion-title>
           </ion-item>
@@ -68,13 +69,17 @@ export default Vue.component("progetto", {
     };
   },
   async created() {
-    this.$emit("caricamento", true);
-    this.progetto = await (
-      await fetch("/progetto?id=" + this.$route.params.id)
-    ).json();
-    this.$emit("caricamento", false);
+    this.aggiorna();
   },
   methods: {
+    async aggiorna() {
+      this.$emit("caricamento", true);
+      await this.$emit('aggiorna');
+      this.progetto = await (
+        await fetch("/progetto?id=" + this.$route.params.id)
+      ).json();
+      this.$emit("caricamento", false);
+    },
     async accettaCandidatura(index) {
       this.$emit("caricamento", true);
       const status = (
@@ -86,7 +91,7 @@ export default Vue.component("progetto", {
           { method: "POST" }
         )
       ).status;
-      await this.$emit('aggiorna');
+      await this.aggiorna();
       if (status >= 200 && status < 300) this.$emit("notifica", "successo");
       else this.$emit("notifica", "errore nell'accettazione");
       this.$emit("caricamento", false);
@@ -99,7 +104,7 @@ export default Vue.component("progetto", {
           { method: "POST" }
         )
       ).status;
-      await this.$emit('aggiorna');
+      await this.aggiorna();
       if (status >= 200 && status < 300) this.$emit("notifica", "successo");
       else this.$emit("notifica", "errore nella candidatura");
       this.$emit("caricamento", false);

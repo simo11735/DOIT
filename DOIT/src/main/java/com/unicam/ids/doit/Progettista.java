@@ -19,7 +19,7 @@ public class Progettista {
     @ElementCollection
     private List<String> esperienzeLavorative;
     private String linkedinUrl;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Progetto> progetti = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<MessaggioProgettista> messaggi = new ArrayList<>();
